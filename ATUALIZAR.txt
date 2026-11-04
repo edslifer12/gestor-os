@@ -1,0 +1,5 @@
+Atualização 4.3 → 4.4
+
+Feche o aplicativo e faça uma cópia completa da pasta de dados antes de atualizar. Substitua os arquivos do projeto, execute npm ci e inicie com npm start. Para o programa instalado, gere e instale a nova versão no Windows. A pasta de dados permanece compatível.
+
+A identidade fixa foi substituída por dados configuráveis. Abra Configurações, cadastre sua empresa, selecione a logo e salve. A autoria é de Edson Silva.

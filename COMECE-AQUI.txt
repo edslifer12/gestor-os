@@ -1,0 +1,8 @@
+Gestor OS 4.4 — desenvolvido por Edson Silva
+
+1. Abra esta pasta no VS Code.
+2. No terminal, execute npm ci e depois npm start.
+3. Configure a empresa e a logo na aba Configurações e salve.
+4. Para gerar o instalador no Windows: npm run make:win.
+
+Consulte README.md para requisitos, atualização e cópias de segurança.

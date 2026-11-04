@@ -1,0 +1,27 @@
+{
+  "name": "bps-tec-os",
+  "productName": "Gestor OS",
+  "version": "4.4.0",
+  "description": "Sistema local de ordens de serviço com empresa e logo configuráveis",
+  "author": "Edson Silva",
+  "private": true,
+  "main": "src/main.js",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "make:win": "electron-forge make --platform=win32 --arch=x64",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "1.0.1"
+  },
+  "devDependencies": {
+    "electron": "44.7.2",
+    "@electron-forge/cli": "8.0.1",
+    "@electron-forge/maker-squirrel": "8.0.1"
+  }
+}
