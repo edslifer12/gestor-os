@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (pendingLogo) $("logoPreview").src = pendingLogo;
     else $("logoPreview").removeAttribute("src");
   }
-  function apply(settings) {
+  function apply(settings, { preserveCompanyDraft = false } = {}) {
     appSettings = {
       showSolicitante: settings.showSolicitante !== false,
       company: settings.company || {},
@@ -27,9 +27,11 @@ window.addEventListener("DOMContentLoaded", () => {
     $("companyLogo").alt = "Logo de " + name;
     $("companyFooter").textContent = name;
     $("companyContact").textContent = companyContact(company);
-    companyKeys.forEach(key => $("company_" + key).value = company[key] || "");
-    pendingLogo = company.logo || "";
-    preview();
+    if (!preserveCompanyDraft) {
+      companyKeys.forEach(key => $("company_" + key).value = company[key] || "");
+      pendingLogo = company.logo || "";
+      preview();
+    }
     document.documentElement.dataset.theme = appSettings.theme;
     $("themeSelect").value = appSettings.theme;
     $("showSolicitante").checked = appSettings.showSolicitante;
@@ -47,25 +49,27 @@ window.addEventListener("DOMContentLoaded", () => {
     $("tabSettings").setAttribute("aria-current", "page");
     $("pageTitle").textContent = "Configurações";
   });
-  function savePreference(company = appSettings.company) {
+  function savePreference(company = appSettings.company, preserveCompanyDraft = true) {
     const next = {
       company,
       showSolicitante: $("showSolicitante").checked,
       theme: $("themeSelect").value,
     };
     if (busy) {
-      apply(appSettings);
+      apply(appSettings, { preserveCompanyDraft: true });
       return;
     }
     runBusy(async () => {
       $("settingsStatus").textContent = "Salvando configuração…";
       try {
         const saved = await request("saveSettings", next);
-        apply(saved);
+        apply(saved, { preserveCompanyDraft });
         $("settingsStatus").textContent =
-          "Configuração salva neste computador.";
+          preserveCompanyDraft
+            ? "Preferência salva. Para aplicar alterações da empresa, clique em Salvar dados da empresa."
+            : "Configuração salva neste computador.";
       } catch (error) {
-        apply(appSettings);
+        apply(appSettings, { preserveCompanyDraft: true });
         $("settingsStatus").textContent =
           "Não foi possível salvar: " + error.message;
       }
@@ -77,7 +81,7 @@ window.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     const company = Object.fromEntries(companyKeys.map(key => [key, $("company_" + key).value.trim()]));
     company.logo = pendingLogo;
-    savePreference(company);
+    savePreference(company, false);
   });
   $("chooseLogo").addEventListener("click", () => runBusy(async () => {
     try {
