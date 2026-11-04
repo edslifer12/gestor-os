@@ -1,0 +1,5 @@
+Validação da versão 4.4
+
+31 testes automatizados aprovados: clientes, segurança IPC, PDF simulado, backups, gravação atômica, migração, preferências e persistência/validação da empresa e da logo.
+
+Não foi executado o aplicativo Electron nem compilado o instalador Windows neste ambiente. A aparência e a seleção nativa de arquivo precisam de conferência no aplicativo: cadastrar empresa, salvar, fechar e reabrir, trocar/remover logo, gerar PDF e verificar ambos os temas.
