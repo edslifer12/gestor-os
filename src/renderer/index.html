@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gestor OS • Ordem de serviço</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="phone.js" defer></script>
+    <script src="script.js" defer></script>
+    <script src="clients-ui.js" defer></script>
+    <script src="settings-ui.js" defer></script>
+  </head>
+  <body>
+    <div id="app">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-art">
+            <img id="companyLogo" alt="Logo da empresa" hidden /><strong id="companyBrand">Sua empresa</strong>
+          </div>
+        </div>
+        <nav class="tabs" aria-label="Seções do aplicativo">
+          <button
+            type="button"
+            id="tabOS"
+            class="tab active"
+            aria-current="page"
+          >
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <path d="M7 3h7l4 4v14H7zM14 3v5h4M10 12h5M10 16h5" /></svg
+            ><span>Ordem de serviço</span>
+          </button>
+          <button type="button" id="tabClientes" class="tab">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="7" r="4" />
+              <path d="M4 21v-3a8 8 0 0 1 16 0v3" /></svg
+            ><span>Clientes</span>
+          </button>
+          <button type="button" id="tabSettings" class="tab">
+            <svg
+              class="nav-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="m10 2 4 0 1 3 3 2 3 0 1 4-2 2-1 4-3 1-2 3-4-1-2-3-4-1-1-4 2-2 0-4 3-2z"
+              /></svg
+            ><span>Configurações</span>
+          </button>
+        </nav>
+        <div class="sidebar-footer">Gestor <strong>OS</strong></div>
+      </aside>
+      <header class="topbar">
+        <div>
+          <h1 id="pageTitle">Ordem de serviço</h1>
+          <p>Atendimento técnico</p>
+        </div>
+      </header>
+      <main>
+        <section id="osPanel" aria-label="Ordem de serviço">
+          <form id="osForm" inert>
+            <section class="metadata card">
+              <div>
+                <label for="numeroOS"
+                  >Número da OS <span aria-hidden="true">*</span></label
+                ><input
+                  id="numeroOS"
+                  required
+                  maxlength="60"
+                  autocomplete="off"
+                />
+              </div>
+              <div>
+                <label for="data"
+                  >Data do serviço <span aria-hidden="true">*</span></label
+                ><input type="date" id="data" required />
+              </div>
+              <div id="solicitanteGroup">
+                <label for="solicitante"
+                  >Solicitante <span class="optional">opcional</span></label
+                ><input
+                  id="solicitante"
+                  maxlength="180"
+                  autocomplete="off"
+                  placeholder="Pessoa que solicitou o atendimento"
+                />
+              </div>
+            </section>
+            <div class="workspace">
+              <div class="fields">
+                <section class="card">
+                  <h2>Dados do cliente</h2>
+                  <div class="grid">
+                    <div>
+                      <label for="nome"
+                        >Nome do cliente
+                        <span aria-hidden="true">*</span></label
+                      ><input
+                        id="nome"
+                        autocomplete="off"
+                        role="combobox"
+                        aria-autocomplete="list"
+                        aria-expanded="false"
+                        aria-controls="clienteSugestoes"
+                        required
+                        maxlength="180"
+                        placeholder="Nome completo ou razão social"
+                      />
+                      <div
+                        id="clienteSugestoes"
+                        class="suggestions"
+                        role="listbox"
+                        aria-label="Clientes encontrados"
+                        hidden
+                      ></div>
+                      <p
+                        id="clienteSelecionado"
+                        class="hint selection-note"
+                        aria-live="polite"
+                      >
+                        Digite o nome para buscar um cliente cadastrado ou
+                        preencha um novo atendimento.
+                      </p>
+                    </div>
+                    <div>
+                      <label for="telefone">Telefone</label
+                      ><input
+                        id="telefone"
+                        inputmode="tel"
+                        type="tel"
+                        maxlength="30"
+                        autocomplete="tel"
+                        placeholder="(31) 90000-0000"
+                      />
+                    </div>
+                    <div class="full">
+                      <label for="endereco">Endereço</label
+                      ><input
+                        id="endereco"
+                        maxlength="240"
+                        autocomplete="street-address"
+                        placeholder="Rua, número e complemento"
+                      />
+                    </div>
+                    <div>
+                      <label for="bairro">Bairro</label
+                      ><input
+                        id="bairro"
+                        maxlength="100"
+                        placeholder="Bairro"
+                      />
+                    </div>
+                    <div>
+                      <label for="cidade">Cidade / UF</label
+                      ><input
+                        id="cidade"
+                        maxlength="100"
+                        autocomplete="address-level2"
+                        placeholder="Mariana — MG"
+                      />
+                    </div>
+                  </div>
+                </section>
+                <section class="card">
+                  <h2>Equipamento <span class="optional">opcional</span></h2>
+                  <div class="grid">
+                    <div>
+                      <label for="tipo">Tipo</label
+                      ><input
+                        id="tipo"
+                        maxlength="100"
+                        list="tipos"
+                        placeholder="Notebook, computador…"
+                      /><datalist id="tipos">
+                        <option value="Notebook"></option>
+                        <option value="Computador"></option>
+                        <option value="Impressora"></option>
+                        <option value="Rede / infraestrutura"></option>
+                        <option value="Outro"></option>
+                      </datalist>
+                    </div>
+                    <div>
+                      <label for="modelo">Marca / modelo</label
+                      ><input
+                        id="modelo"
+                        maxlength="180"
+                        placeholder="Ex.: Dell Inspiron"
+                      />
+                    </div>
+                    <div class="full">
+                      <label for="defeito">Defeito relatado</label
+                      ><textarea
+                        id="defeito"
+                        maxlength="6000"
+                        placeholder="O que o cliente relatou"
+                      ></textarea>
+                    </div>
+                  </div>
+                </section>
+                <section class="card">
+                  <div class="section-top">
+                    <h2>Serviços</h2>
+                    <span class="optional">* Campos obrigatórios</span>
+                  </div>
+                  <div class="service-head" aria-hidden="true">
+                    <span>Descrição</span><span>Qtd.</span
+                    ><span>Valor unitário</span><span>Subtotal</span
+                    ><span></span>
+                  </div>
+                  <div id="containerServicos"></div>
+                  <button
+                    type="button"
+                    id="btnAdicionar"
+                    class="button outline"
+                  >
+                    + Adicionar serviço
+                  </button>
+                </section>
+                <section class="card">
+                  <h2>Observações</h2>
+                  <label class="sr-only" for="obs">Observações adicionais</label
+                  ><textarea
+                    id="obs"
+                    maxlength="12000"
+                    placeholder="Recomendações, condições e informações adicionais sobre o serviço"
+                  ></textarea>
+                </section>
+              </div>
+              <aside class="card summary">
+                <h2>Resumo dos valores</h2>
+                <div class="summary-line">
+                  <span>Serviços</span
+                  ><strong id="quantidadeServicos">1</strong>
+                </div>
+                <div class="summary-line">
+                  <span>Subtotal</span
+                  ><strong id="subtotalGeral">R$ 0,00</strong>
+                </div>
+                <div class="summary-line">
+                  <label for="desconto">Desconto (R$)</label
+                  ><input
+                    id="desconto"
+                    type="number"
+                    min="0"
+                    max="999999999"
+                    step="0.01"
+                    value="0"
+                    inputmode="decimal"
+                  />
+                </div>
+                <div class="total">
+                  <span>Total</span><strong id="total">R$ 0,00</strong>
+                </div>
+                <button class="button primary" id="btnPDF" type="submit">
+                  Gerar PDF
+                </button>
+                <p class="hint">
+                  Escolha o nome e a pasta para salvar o documento.
+                </p>
+                <button class="button outline" id="btnSalvar" type="button">
+                  Salvar rascunho</button
+                ><button class="button plain" id="btnNova" type="button">
+                  Nova OS
+                </button>
+                <p
+                  id="saveStatus"
+                  class="hint"
+                  role="status"
+                  aria-live="polite"
+                ></p>
+                <details class="backup">
+                  <summary>Backup do rascunho</summary>
+                  <p class="hint">
+                    O rascunho é salvo neste computador. Exporte um backup para
+                    guardá-lo ou transferi-lo.
+                  </p>
+                  <button
+                    class="button outline small"
+                    id="btnExportar"
+                    type="button"
+                  >
+                    Exportar backup</button
+                  ><button
+                    class="button outline small"
+                    id="btnImportar"
+                    type="button"
+                  >
+                    Restaurar backup</button
+                  ><button
+                    class="button plain small"
+                    id="btnPastaDados"
+                    type="button"
+                  >
+                    Abrir pasta de dados
+                  </button>
+                </details>
+              </aside>
+            </div>
+          </form>
+        </section>
+        <section id="clientsPanel" aria-label="Cadastro de clientes" hidden>
+          <div class="page-heading">
+            <div>
+              <h2>Clientes</h2>
+              <p class="hint">
+                Cadastre os clientes para preencher seus próximos atendimentos.
+              </p>
+            </div>
+          </div>
+          <p
+            id="clientesMessage"
+            class="clients-message"
+            role="status"
+            aria-live="polite"
+          ></p>
+          <div class="clients-workspace">
+            <section class="card">
+              <h2 id="clientFormTitle">Novo cliente</h2>
+              <form id="clientForm">
+                <div class="client-fields">
+                  <div>
+                    <label for="clienteNome">Nome do cliente *</label
+                    ><input
+                      id="clienteNome"
+                      required
+                      maxlength="180"
+                      autocomplete="off"
+                    />
+                  </div>
+                  <div>
+                    <label for="clienteTelefone">Telefone</label
+                    ><input
+                      id="clienteTelefone"
+                      type="tel"
+                      inputmode="tel"
+                      maxlength="30"
+                      placeholder="(31) 99999-9999"
+                    />
+                  </div>
+                  <div>
+                    <label for="clienteEndereco">Endereço</label
+                    ><input
+                      id="clienteEndereco"
+                      maxlength="240"
+                      placeholder="Rua, número e complemento"
+                    />
+                  </div>
+                  <div>
+                    <label for="clienteBairro">Bairro</label
+                    ><input id="clienteBairro" maxlength="100" />
+                  </div>
+                  <div>
+                    <label for="clienteCidade">Cidade / UF</label
+                    ><input
+                      id="clienteCidade"
+                      maxlength="100"
+                      placeholder="Mariana — MG"
+                    />
+                  </div>
+                </div>
+                <div class="client-actions">
+                  <button
+                    class="button primary"
+                    type="submit"
+                    id="btnSalvarCliente"
+                  >
+                    Cadastrar cliente</button
+                  ><button
+                    class="button plain"
+                    type="button"
+                    id="btnCancelarCliente"
+                  >
+                    Limpar
+                  </button>
+                </div>
+              </form>
+            </section>
+            <section class="card client-list-card">
+              <h2>Clientes cadastrados</h2>
+              <label for="buscaClientes">Buscar por nome</label
+              ><input
+                id="buscaClientes"
+                maxlength="180"
+                type="search"
+                placeholder="Digite parte do nome"
+              />
+              <p id="clientCount" class="hint" aria-live="polite"></p>
+              <div class="client-table-wrap">
+                <table class="client-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Cliente</th>
+                      <th scope="col">Telefone / cidade</th>
+                      <th scope="col">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="clientRows"></tbody>
+                </table>
+              </div>
+              <div class="pagination">
+                <button
+                  type="button"
+                  id="clientesAnterior"
+                  class="button plain"
+                  disabled
+                >
+                  Anterior</button
+                ><span id="clientPage" class="hint"></span
+                ><button
+                  type="button"
+                  id="clientesProximo"
+                  class="button plain"
+                  disabled
+                >
+                  Próxima
+                </button>
+              </div>
+              <p class="hint">
+                Editar ou excluir um cadastro não altera os dados já preenchidos
+                na OS.
+              </p>
+            </section>
+          </div>
+        </section>
+        <section id="settingsPanel" hidden aria-label="Configurações">
+          <section class="card settings-card">
+            <h2>Dados da empresa</h2>
+            <p class="hint">Informações utilizadas na tela e nos próximos PDFs. Os documentos já salvos permanecem como estão.</p>
+            <form id="companyForm">
+            <div class="grid"><div><label for="company_name">Nome fantasia</label><input id="company_name" maxlength="120" type="text" /></div>
+<div><label for="company_legalName">Razão social</label><input id="company_legalName" maxlength="160" type="text" /></div>
+<div><label for="company_document">CPF/CNPJ</label><input id="company_document" maxlength="30" type="text" /></div>
+<div><label for="company_phone">Telefone</label><input id="company_phone" maxlength="30" type="text" /></div>
+<div><label for="company_email">E-mail</label><input id="company_email" maxlength="160" type="text" /></div>
+<div><label for="company_address">Endereço</label><input id="company_address" maxlength="300" type="text" /></div>
+</div>
+            <div class="setting-row"><div><label>Logo da empresa</label><p class="hint">PNG ou JPEG, até 5 MB. A imagem mantém suas proporções.</p><img id="logoPreview" alt="Prévia da logo" hidden /></div>
+            <div><button id="chooseLogo" type="button" class="button">Enviar logo</button> <button id="removeLogo" type="button" class="button">Remover logo</button></div></div>
+            <button type="submit" class="button primary">Salvar dados da empresa</button>
+            </form>
+            <h2>Aparência</h2>
+            <div class="setting-row theme-row">
+              <div>
+                <label for="themeSelect">Tema do aplicativo</label>
+                <p class="hint">
+                  Escolha a aparência para a tela. O PDF mantém o fundo branco
+                  nos dois temas.
+                </p>
+              </div>
+              <select id="themeSelect">
+                <option value="light">Claro</option>
+                <option value="dark">Escuro</option>
+              </select>
+            </div>
+            <h2>Configurações da ordem de serviço</h2>
+            <div class="setting-row">
+              <div>
+                <label for="showSolicitante">Exibir solicitante</label>
+                <p class="hint">
+                  Mostra o campo na OS e inclui o nome no PDF quando preenchido.
+                </p>
+              </div>
+              <label class="switch"
+                ><input
+                  type="checkbox"
+                  id="showSolicitante"
+                  checked
+                  role="switch"
+                /><span aria-hidden="true"></span
+                ><span class="sr-only">Exibir solicitante</span></label
+              >
+            </div>
+            <p class="hint">
+              Ao desativar, o texto preenchido é preservado. A preferência vale
+              para os próximos PDFs emitidos; documentos já salvos não são
+              alterados.
+            </p>
+            <p id="settingsStatus" role="status" aria-live="polite"></p>
+          </section>
+        </section>
+        <p id="message" role="status" aria-live="polite">
+          Carregando dados do aplicativo…
+        </p>
+      </main>
+      <footer>
+        <span id="companyFooter">Sua empresa</span>
+        <span id="companyContact"></span>
+        <span>Desenvolvido por Edson Silva</span>
+      </footer>
+    </div>
+    <article
+      id="print-document"
+      aria-label="Ordem de serviço para impressão"
+    ></article>
+  </body>
+</html>
